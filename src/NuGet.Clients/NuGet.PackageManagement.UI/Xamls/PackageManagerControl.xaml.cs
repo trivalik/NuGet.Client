@@ -73,6 +73,7 @@ namespace NuGet.PackageManagement.UI
         private IPackageVulnerabilityService _packageVulnerabilityService;
         private INuGetPackageFileService _nugetPackageFileService;
         private bool _isReadmeTabEnabled;
+        private FixVulnerabilitiesViewModel _fixVulnerabilitiesViewModel;
 
         private SearchControl SearchControl
         {
@@ -189,6 +190,8 @@ namespace NuGet.PackageManagement.UI
             // UI is initialized. Start the first search
             _packageList.CheckBoxesEnabled = _topPanel.Filter == ItemFilter.UpdatesAvailable;
             _packageList.IsSolution = Model.IsSolution;
+            _fixVulnerabilitiesViewModel = new FixVulnerabilitiesViewModel(_serviceBroker);
+            _packageList.FixVulnerabilitiesViewModel = _fixVulnerabilitiesViewModel;
 
             Loaded += PackageManagerLoaded;
 
@@ -1631,6 +1634,8 @@ namespace NuGet.PackageManagement.UI
             _packageDetail.Cleanup();
             _detailModel.Dispose();
             _packageList.SelectionChanged -= PackageList_SelectionChanged;
+
+            _fixVulnerabilitiesViewModel.Dispose();
 
             EmitPMUIClosingTelemetry();
         }
