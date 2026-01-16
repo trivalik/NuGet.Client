@@ -22,6 +22,7 @@ namespace NuGet.DependencyResolver
     {
         private readonly RemoteWalkContext _context;
 
+        // Play around with changing the inside types.
         public RemoteDependencyWalker(RemoteWalkContext context)
         {
             _context = context;
@@ -93,6 +94,7 @@ namespace NuGet.DependencyResolver
                 libraryRange,
                 framework,
                 runtimeName,
+                string.Empty,
                 _context,
                 CancellationToken.None);
 
@@ -170,6 +172,7 @@ namespace NuGet.DependencyResolver
                                     dependencyLibraryRange,
                                     framework,
                                     runtimeName,
+                                    string.Empty,
                                     _context,
                                     CancellationToken.None);
 

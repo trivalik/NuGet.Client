@@ -144,6 +144,11 @@ namespace NuGet.Common
         NU1017 = 1017,
 
         /// <summary>
+        /// Aliasing only supported in new restore dependency resolver.
+        /// </summary>
+        NU1018 = 1018,
+
+        /// <summary>
         /// Unable to resolve package, generic message for unknown type constraints.
         /// </summary>
         NU1100 = 1100,

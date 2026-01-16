@@ -341,7 +341,7 @@ namespace NuGet.Commands
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            LibraryRangeCacheKey key = new(libraryIdentity, targetFramework);
+            LibraryRangeCacheKey key = new(libraryIdentity, targetFramework, alias: string.Empty);
 
             return _dependencyInfoCache.GetOrAddAsync(
                 key,

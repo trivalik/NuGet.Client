@@ -678,6 +678,11 @@ Para obtener más información, visite https://docs.nuget.org/docs/reference/com
         <target state="translated">Recursos locales parcialmente borrados.</target>
         <note />
       </trans-unit>
+      <trans-unit id="Log_AliasingSupportedInNewDependencyResolver">
+        <source>The project {0} is attempting to restore duplicate frameworks. Restoring duplicate frameworks is not supported in the legacy dependency resolver. Remove RestoreUseLegacyDependencyResolver to use this feature.</source>
+        <target state="new">The project {0} is attempting to restore duplicate frameworks. Restoring duplicate frameworks is not supported in the legacy dependency resolver. Remove RestoreUseLegacyDependencyResolver to use this feature.</target>
+        <note />
+      </trans-unit>
       <trans-unit id="Log_AllProjectsUpToDate">
         <source>All projects are up-to-date for restore.</source>
         <target state="translated">Todos los proyectos están actualizados para la restauración.</target>
@@ -1257,11 +1262,6 @@ Para obtener más información, visite https://docs.nuget.org/docs/reference/com
         <target state="translated">La versión de protocolo especificada no es válida. Las versiones de protocolo válidas son de {0} a {1}.</target>
         <note />
       </trans-unit>
-      <trans-unit id="SpecValidationDuplicateFrameworks">
-        <source>Duplicate frameworks found: '{0}'.</source>
-        <target state="translated">Se encontraron marcos de trabajo duplicados para: "{0}".</target>
-        <note />
-      </trans-unit>
       <trans-unit id="SpecValidationInvalidFramework">
         <source>Invalid target framework '{0}'.</source>
         <target state="translated">Marco de trabajo de destino no válido "{0}".</target>
@@ -1275,11 +1275,6 @@ Para obtener más información, visite https://docs.nuget.org/docs/reference/com
       <trans-unit id="SpecValidationNoFrameworks">
         <source>No target frameworks specified.</source>
         <target state="translated">No se ha especificado ningún marco de trabajo de destino.</target>
-        <note />
-      </trans-unit>
-      <trans-unit id="SpecValidationUAPSingleFramework">
-        <source>UAP projects must contain exactly one target framework.</source>
-        <target state="translated">Los proyectos de UAP deben contener exactamente un marco de trabajo de destino.</target>
         <note />
       </trans-unit>
       <trans-unit id="SpecValidationZeroRestoreRequests">

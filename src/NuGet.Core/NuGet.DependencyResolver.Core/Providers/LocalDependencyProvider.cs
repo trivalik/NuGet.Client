@@ -87,7 +87,7 @@ namespace NuGet.DependencyResolver
                 throw new ArgumentNullException(nameof(targetFramework));
             }
 
-            var library = _dependencyProvider.GetLibrary(libraryRange, targetFramework);
+            var library = _dependencyProvider.GetLibrary(libraryRange, targetFramework, null); // TODO NK
 
             if (library == null)
             {
@@ -129,7 +129,7 @@ namespace NuGet.DependencyResolver
                 throw new ArgumentNullException(nameof(targetFramework));
             }
 
-            var library = _dependencyProvider.GetLibrary(libraryIdentity, targetFramework);
+            var library = _dependencyProvider.GetLibrary(libraryIdentity, targetFramework, null);
 
             var dependencyInfo = LibraryDependencyInfo.Create(
                 library.Identity,

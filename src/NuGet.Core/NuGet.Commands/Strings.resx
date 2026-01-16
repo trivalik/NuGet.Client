@@ -372,9 +372,6 @@ For more information, visit https://docs.nuget.org/docs/reference/command-line-r
   <data name="PropertyNotAllowedForProjectType" xml:space="preserve">
     <value>Invalid input combination. Property '{0}' is not allowed for project type '{1}'.</value>
   </data>
-  <data name="SpecValidationDuplicateFrameworks" xml:space="preserve">
-    <value>Duplicate frameworks found: '{0}'.</value>
-  </data>
   <data name="SpecValidationInvalidFramework" xml:space="preserve">
     <value>Invalid target framework '{0}'.</value>
   </data>
@@ -383,9 +380,6 @@ For more information, visit https://docs.nuget.org/docs/reference/command-line-r
   </data>
   <data name="SpecValidationNoFrameworks" xml:space="preserve">
     <value>No target frameworks specified.</value>
-  </data>
-  <data name="SpecValidationUAPSingleFramework" xml:space="preserve">
-    <value>UAP projects must contain exactly one target framework.</value>
   </data>
   <data name="SpecValidationZeroRestoreRequests" xml:space="preserve">
     <value>Restore request does not contain any projects to restore.</value>
@@ -1169,5 +1163,8 @@ NuGet requires HTTPS sources. Refer to https://aka.ms/nuget-https-everywhere for
   </data>
   <data name="Error_ProjectJson_Deprecated" xml:space="preserve">
     <value>Managing packages with project.json is deprecated. Migrate to PackageReference.</value>
+  </data>
+  <data name="Log_AliasingSupportedInNewDependencyResolver" xml:space="preserve">
+    <value>The project {0} is attempting to restore duplicate frameworks. Restoring duplicate frameworks is not supported in the legacy dependency resolver. Remove RestoreUseLegacyDependencyResolver to use this feature.</value>
   </data>
 </root>

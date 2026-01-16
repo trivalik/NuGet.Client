@@ -313,7 +313,6 @@ NuGet.ProjectModel.PackageSpec.PackageSpec() -> void
 NuGet.ProjectModel.PackageSpecExtensions
 NuGet.ProjectModel.PackageSpecOperations
 NuGet.ProjectModel.PackageSpecReferenceDependencyProvider
-~NuGet.ProjectModel.PackageSpecReferenceDependencyProvider.GetLibrary(NuGet.LibraryModel.LibraryRange libraryRange, NuGet.Frameworks.NuGetFramework targetFramework) -> NuGet.LibraryModel.Library
 ~NuGet.ProjectModel.PackageSpecReferenceDependencyProvider.PackageSpecReferenceDependencyProvider(System.Collections.Generic.IEnumerable<NuGet.ProjectModel.ExternalProjectReference> externalProjects, NuGet.Common.ILogger logger) -> void
 ~NuGet.ProjectModel.PackageSpecReferenceDependencyProvider.PackageSpecReferenceDependencyProvider(System.Collections.Generic.IEnumerable<NuGet.ProjectModel.ExternalProjectReference> externalProjects, NuGet.Common.ILogger logger, bool useLegacyDependencyGraphResolution) -> void
 NuGet.ProjectModel.PackageSpecReferenceDependencyProvider.SupportsType(NuGet.LibraryModel.LibraryDependencyTarget libraryType) -> bool
@@ -628,7 +627,6 @@ static NuGet.ProjectModel.BuildAction.operator ==(NuGet.ProjectModel.BuildAction
 ~static NuGet.ProjectModel.PackageSpecUtility.IsSnapshotVersion(string version) -> bool
 ~static NuGet.ProjectModel.PackageSpecUtility.SpecifySnapshot(string version, string snapshotValue) -> NuGet.Versioning.NuGetVersion
 ~static NuGet.ProjectModel.PackageSpecWriter.Write(NuGet.ProjectModel.PackageSpec packageSpec, NuGet.RuntimeModel.IObjectWriter writer) -> void
-~static NuGet.ProjectModel.PackageSpecWriter.WriteToFile(NuGet.ProjectModel.PackageSpec packageSpec, string filePath) -> void
 ~static NuGet.ProjectModel.PackagesLockFileFormat.Parse(string lockFileContent, NuGet.Common.ILogger log, string path) -> NuGet.ProjectModel.PackagesLockFile
 ~static NuGet.ProjectModel.PackagesLockFileFormat.Parse(string lockFileContent, string path) -> NuGet.ProjectModel.PackagesLockFile
 ~static NuGet.ProjectModel.PackagesLockFileFormat.Read(System.IO.Stream stream, NuGet.Common.ILogger log, string path) -> NuGet.ProjectModel.PackagesLockFile
@@ -663,10 +661,7 @@ static readonly NuGet.ProjectModel.BuildAction.None -> NuGet.ProjectModel.BuildA
 static readonly NuGet.ProjectModel.BuildAction.Page -> NuGet.ProjectModel.BuildAction
 static readonly NuGet.ProjectModel.BuildAction.Resource -> NuGet.ProjectModel.BuildAction
 static readonly NuGet.ProjectModel.BuildAction.SplashScreen -> NuGet.ProjectModel.BuildAction
-~static readonly NuGet.ProjectModel.JsonPackageSpecReader.Files -> string
 ~static readonly NuGet.ProjectModel.JsonPackageSpecReader.HideWarningsAndErrors -> string
-~static readonly NuGet.ProjectModel.JsonPackageSpecReader.PackOptions -> string
-~static readonly NuGet.ProjectModel.JsonPackageSpecReader.PackageType -> string
 ~static readonly NuGet.ProjectModel.JsonPackageSpecReader.RestoreOptions -> string
 ~static readonly NuGet.ProjectModel.JsonPackageSpecReader.RestoreSettings -> string
 static readonly NuGet.ProjectModel.LockFile.DirectorySeparatorChar -> char

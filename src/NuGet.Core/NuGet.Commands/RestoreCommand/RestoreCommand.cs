@@ -1462,8 +1462,10 @@ namespace NuGet.Commands
             IReadOnlyList<NuGetv3LocalRepository> localRepositories,
             RemoteWalkContext contextForProject)
         {
+            int lockFileVersion = DetermineLockFileVersion();
+
             // Build the lock file
-            var lockFile = new LockFileBuilder(_request.LockFileVersion, _logger, _includeFlagGraphs)
+            var lockFile = new LockFileBuilder(lockFileVersion, _logger, _includeFlagGraphs)
                     .CreateLockFile(
                         existingLockFile,
                         project,
@@ -1473,6 +1475,22 @@ namespace NuGet.Commands
                         _lockFileBuilderCache);
 
             return lockFile;
+
+            int DetermineLockFileVersion()
+            {
+                int lockFileVersion = _request.LockFileVersion;
+
+                if (_request.Project.RestoreMetadata.UsingMicrosoftNETSdk &&
+                    !SdkAnalysisLevelMinimums.IsEnabled(
+                    _request.Project.RestoreMetadata.SdkAnalysisLevel,
+                    _request.Project.RestoreMetadata.UsingMicrosoftNETSdk,
+                    SdkAnalysisLevelMinimums.V10_0_200))
+                {
+                    lockFileVersion = 3;
+                }
+
+                return lockFileVersion;
+            }
         }
 
         /// <summary>
@@ -1660,6 +1678,18 @@ namespace NuGet.Commands
             TelemetryActivity telemetryActivity)
         {
             bool success = true;
+
+            HashSet<NuGetFramework> allFrameworks = [.. _request.Project.TargetFrameworks.Select(e => e.FrameworkName)];
+
+            if (_request.Project.TargetFrameworks.Count != allFrameworks.Count)
+            {
+                var message = string.Format(CultureInfo.CurrentCulture, Strings.Log_AliasingSupportedInNewDependencyResolver, _request.Project.Name);
+                await _logger.LogAsync(RestoreLogMessage.CreateError(NuGetLogCode.NU1018, message));
+
+                success = false;
+                return (success, []);
+            }
+
             if (_request.Project.TargetFrameworks.Count == 0)
             {
                 var message = string.Format(CultureInfo.CurrentCulture, Strings.Log_ProjectDoesNotSpecifyTargetFrameworks, _request.Project.Name, _request.Project.FilePath);

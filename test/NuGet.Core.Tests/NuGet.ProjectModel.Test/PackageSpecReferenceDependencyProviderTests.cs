@@ -53,7 +53,7 @@ namespace NuGet.ProjectModel.Test
 
             var dependencyProvider = new PackageSpecReferenceDependencyProvider(new List<ExternalProjectReference>(), NullLogger.Instance, useLegacyDependencyGraphResolution);
             // Act
-            var dependencies = dependencyProvider.GetSpecDependencies(packSpec, tfi.FrameworkName);
+            var dependencies = dependencyProvider.GetSpecDependencies(packSpec, tfi.FrameworkName, null);
 
             // Assert
             if (cpvmEnabled && CentralPackageTransitivePinningEnabled && useLegacyDependencyGraphResolution)
@@ -101,7 +101,7 @@ namespace NuGet.ProjectModel.Test
             var assetTargetFallback = new AssetTargetFallbackFramework(net60Framework, new List<NuGetFramework> { net472Framework });
             // Act
 
-            var dependencies = dependencyProvider.GetSpecDependencies(packageSpec, assetTargetFallback);
+            var dependencies = dependencyProvider.GetSpecDependencies(packageSpec, assetTargetFallback, null);
 
             // Assert
             dependencies.Should().HaveCount(dependencyCount);

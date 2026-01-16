@@ -173,18 +173,6 @@ namespace NuGet.Commands
             {
                 throw RestoreSpecException.Create(Strings.SpecValidationNoFrameworks, files);
             }
-
-            // Duplicate frameworks may not exist
-            // Change in ATF should *not* affect our duplicate check, so we use the full framework comparer.
-            if (frameworkNames.Count != frameworkNames.Distinct(NuGetFrameworkFullComparer.Instance).Count())
-            {
-                var message = string.Format(
-                    CultureInfo.CurrentCulture,
-                    Strings.SpecValidationDuplicateFrameworks,
-                    string.Join(", ", frameworkNames.Select(f => f.GetShortFolderName())));
-
-                throw RestoreSpecException.Create(message, files);
-            }
         }
 
         private static void ValidateProjectSpecPackageReference(PackageSpec spec, IEnumerable<string> files, ILogger logger)

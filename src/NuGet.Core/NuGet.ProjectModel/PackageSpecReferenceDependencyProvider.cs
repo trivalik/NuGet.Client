@@ -94,8 +94,11 @@ namespace NuGet.ProjectModel
             return (libraryType & (LibraryDependencyTarget.Project | LibraryDependencyTarget.ExternalProject)) != LibraryDependencyTarget.None;
         }
 
-        public Library GetLibrary(LibraryRange libraryRange, NuGetFramework targetFramework)
+        public Library GetLibrary(LibraryRange libraryRange, NuGetFramework targetFramework, string alias)
         {
+            if (libraryRange == null) throw new ArgumentNullException(nameof(libraryRange));
+            if (targetFramework == null) throw new ArgumentNullException(nameof(targetFramework));
+
             var name = libraryRange.Name;
 
             PackageSpec packageSpec = null;
@@ -120,7 +123,7 @@ namespace NuGet.ProjectModel
             if (projectStyle == ProjectStyle.PackageReference)
             {
                 // NETCore
-                dependencies = GetDependenciesFromSpecRestoreMetadata(packageSpec, targetFramework);
+                dependencies = GetDependenciesFromSpecRestoreMetadata(packageSpec, targetFramework, alias);
             }
             else
             {
@@ -228,9 +231,9 @@ namespace NuGet.ProjectModel
             }
         }
 
-        private List<LibraryDependency> GetDependenciesFromSpecRestoreMetadata(PackageSpec packageSpec, NuGetFramework targetFramework)
+        private List<LibraryDependency> GetDependenciesFromSpecRestoreMetadata(PackageSpec packageSpec, NuGetFramework targetFramework, string targetAlias)
         {
-            var dependencies = GetSpecDependencies(packageSpec, targetFramework);
+            var dependencies = GetSpecDependencies(packageSpec, targetFramework, targetAlias);
 
             // Get the nearest framework
             var referencesForFramework = packageSpec.GetRestoreMetadataFramework(targetFramework);
@@ -295,7 +298,7 @@ namespace NuGet.ProjectModel
             PackageSpec packageSpec,
             NuGetFramework targetFramework)
         {
-            var dependencies = GetSpecDependencies(packageSpec, targetFramework);
+            var dependencies = GetSpecDependencies(packageSpec, targetFramework, null);
 
             if (externalReference != null)
             {
@@ -346,20 +349,21 @@ namespace NuGet.ProjectModel
 
         internal List<LibraryDependency> GetSpecDependencies(
             PackageSpec packageSpec,
-            NuGetFramework targetFramework)
+            NuGetFramework targetFramework,
+            string targetAlias)
         {
             var dependencies = new List<LibraryDependency>();
 
             if (packageSpec != null)
             {
                 // Add framework specific dependencies
-                var targetFrameworkInfo = packageSpec.GetTargetFramework(targetFramework);
+                var targetFrameworkInfo = GetTargetFramework(packageSpec, targetFramework, targetAlias);
 
                 if (!_useLegacyAssetTargetFallbackBehavior)
                 {
                     if (targetFrameworkInfo.FrameworkName == null && targetFramework is AssetTargetFallbackFramework atfFramework)
                     {
-                        targetFrameworkInfo = packageSpec.GetTargetFramework(atfFramework.AsFallbackFramework());
+                        targetFrameworkInfo = GetTargetFramework(packageSpec, atfFramework.AsFallbackFramework(), targetAlias);
                     }
                 }
 
@@ -443,6 +447,64 @@ namespace NuGet.ProjectModel
             }
 
             return children;
+        }
+
+        internal static TargetFrameworkInformation GetTargetFramework(PackageSpec project, NuGetFramework targetFramework, string targetAlias)
+        {
+            TargetFrameworkInformation result = null;
+            List<TargetFrameworkInformation> frameworks = null;
+            FindMatchingFrameworks(project, targetFramework, ref result, ref frameworks);
+
+            if (result == null || frameworks == null)
+            {
+                var reducer = new FrameworkReducer(DefaultFrameworkNameProvider.Instance, DefaultCompatibilityProvider.Instance);
+
+                var mostCompatibleFramework = reducer.GetNearest(targetFramework, project.TargetFrameworks.Select(e => e.FrameworkName));
+                FindMatchingFrameworks(project, mostCompatibleFramework, ref result, ref frameworks);
+            }
+
+            if (result != null && frameworks == null)
+            {
+                return result;
+            }
+
+            if (result != null && frameworks != null)
+            {
+                // Multiple frameworks matched exactly, use target alias to disambiguate
+                foreach (var framework in frameworks)
+                {
+                    if (string.Equals(framework.TargetAlias, targetAlias, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return framework;
+                    }
+                }
+            }
+
+            return result ?? new TargetFrameworkInformation();
+        }
+
+        private static void FindMatchingFrameworks(PackageSpec project, NuGetFramework targetFramework, ref TargetFrameworkInformation result, ref List<TargetFrameworkInformation> frameworks)
+        {
+            foreach (TargetFrameworkInformation framework in project.TargetFrameworks)
+            {
+                if (NuGetFramework.Comparer.Equals(targetFramework, framework.FrameworkName))
+                {
+                    if (result != null)
+                    {
+                        if (frameworks == null)
+                        {
+                            frameworks = [result, framework];
+                        }
+                        else
+                        {
+                            frameworks.Add(framework);
+
+                        }
+
+                    }
+                    result = framework;
+                }
+            }
         }
     }
 }
