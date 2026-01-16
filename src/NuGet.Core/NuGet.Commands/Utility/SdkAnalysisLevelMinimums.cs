@@ -28,10 +28,10 @@ namespace NuGet.Commands
         /// <summary>
         /// Minimum SDK Analysis Level required for:
         /// <list type="bullet">
-        /// <item>.NET SDK version that supports aliased lock files.</item>
+        /// <item>.NET SDK version that supports aliased assets files.</item>
         /// </list>
         /// </summary>
-        internal static readonly NuGetVersion V10_0_200 = new("10.0.200");
+        internal static readonly NuGetVersion V10_0_300 = new("10.0.300");
 
         /// <summary>
         /// Determines whether the feature is enabled based on the SDK analysis level.

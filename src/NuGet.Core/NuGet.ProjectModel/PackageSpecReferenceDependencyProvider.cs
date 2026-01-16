@@ -236,7 +236,10 @@ namespace NuGet.ProjectModel
             var dependencies = GetSpecDependencies(packageSpec, targetFramework, targetAlias);
 
             // Get the nearest framework
-            var referencesForFramework = packageSpec.GetRestoreMetadataFramework(targetFramework);
+            // TODO NK - Should we always look-up by alias?
+            var referencesForFramework = string.IsNullOrEmpty(targetAlias) ?
+                packageSpec.GetRestoreMetadataFramework(targetFramework) :
+                packageSpec.GetRestoreMetadataFramework(targetAlias);
 
             if (!_useLegacyAssetTargetFallbackBehavior)
             {
@@ -455,6 +458,11 @@ namespace NuGet.ProjectModel
             List<TargetFrameworkInformation> frameworks = null;
             FindMatchingFrameworks(project, targetFramework, ref result, ref frameworks);
 
+            if (result != null && frameworks == null)
+            {
+                return result;
+            }
+
             if (result == null || frameworks == null)
             {
                 var reducer = new FrameworkReducer(DefaultFrameworkNameProvider.Instance, DefaultCompatibilityProvider.Instance);
@@ -498,7 +506,6 @@ namespace NuGet.ProjectModel
                         else
                         {
                             frameworks.Add(framework);
-
                         }
 
                     }

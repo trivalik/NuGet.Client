@@ -96,7 +96,7 @@ namespace NuGet.Commands.Test
                 {
                     ProjectUniqueName = child.RestoreMetadata.ProjectUniqueName,
                     ProjectPath = child.RestoreMetadata.ProjectPath,
-                    PrivateAssets = LibraryIncludeFlagUtils.DefaultSuppressParent,
+                    PrivateAssets = privateAssets,
                 });
             }
 

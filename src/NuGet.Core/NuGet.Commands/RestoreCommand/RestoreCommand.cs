@@ -1484,7 +1484,7 @@ namespace NuGet.Commands
                     !SdkAnalysisLevelMinimums.IsEnabled(
                     _request.Project.RestoreMetadata.SdkAnalysisLevel,
                     _request.Project.RestoreMetadata.UsingMicrosoftNETSdk,
-                    SdkAnalysisLevelMinimums.V10_0_200))
+                    SdkAnalysisLevelMinimums.V10_0_300))
                 {
                     lockFileVersion = 3;
                 }
