@@ -243,7 +243,7 @@ namespace NuGet.ProjectModel
 
             if (!_useLegacyAssetTargetFallbackBehavior)
             {
-                if (referencesForFramework.FrameworkName == null &&
+                if (referencesForFramework?.FrameworkName == null &&
                       targetFramework is AssetTargetFallbackFramework assetTargetFallbackFramework)
                 {
                     referencesForFramework = packageSpec.GetRestoreMetadataFramework(assetTargetFallbackFramework.AsFallbackFramework());
